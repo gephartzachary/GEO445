@@ -54,7 +54,7 @@ var mymap = L.map("map", {
 
 
 // Create menu items
-var baselayers = {
+var baseLayers = {
     'Grayscale': grayscale,
     'Streets': streets,
     'Hillshade': topo,
@@ -63,4 +63,4 @@ var baselayers = {
 var overlays = {'Landmarks': landmarks};
 
 //Create the menu
-var layerControl = L.control.layers(baseLayers, overlays).addTo(mymap);
+var layerControl = L.control.layers(baseLayers, overlays, {collapsed: false}).addTo(mymap);
