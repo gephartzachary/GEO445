@@ -15,7 +15,7 @@ function dropdown(name) {
                 let temp = document.createElement('a');
                 let link = document.createTextNode("Lab "+ (i+1));
                 temp.appendChild(link);
-                temp.href = "ex" + (i+1) + "/geo455_ex" + (i+1) + ".html";
+                temp.href = "ex_" + (i+1) + "/geo455_ex" + (i+1) + ".html";
                 temp.classList.add("menuitem");
                 div.appendChild(temp);
             }
