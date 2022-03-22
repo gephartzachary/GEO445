@@ -21,6 +21,9 @@ function getColor(value) {
                          '#f2f0f7';
 }
 
+function getColor2(value) {
+    return value > 
+
 function style(feature){
     return {
         fillColor: getColor(feature.properties.pop_den),
