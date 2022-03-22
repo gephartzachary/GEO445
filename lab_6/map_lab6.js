@@ -21,9 +21,6 @@ function getColor(value) {
                          '#f2f0f7';
 }
 
-function getColor2(value) {
-    return value > 
-
 function style(feature){
     return {
         fillColor: getColor(feature.properties.pop_den),
@@ -54,7 +51,6 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
     });
 }
-
 
 var geojson;
 
@@ -92,3 +88,90 @@ legend.onAdd = function (mymap) {
 };
 
 legend.addTo(mymap);
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function getColor2(value) {
+    return value > 47 ? '#54278f':
+           value > 35  ? '#756bb1':
+           value > 22  ? '#9e9ac8':
+           value > 14  ? '#cbc9e2':
+                         '#f2f0f7';
+}
+
+function style2(feature){
+    return {
+        fillColor: getColor(feature.properties.lan_den),
+        weight: 2,
+        opacity: 1,
+        color: 'gray',
+        fillOpacity: 0.9
+    };
+}
+
+  function highlightFeature2(e) {
+    var feature = e.target;
+
+    feature.setStyle({
+        weight: 5,
+        color: '#666',
+        fillOpacity: 0.7
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        feature.bringToFront();
+    }
+}
+
+function onEachFeature2(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature2,
+        mouseout: resetHighligh2t,
+    });
+}
+
+var geojson2;
+
+function resetHighlight2(e) {
+    geojson2.resetStyle2(e.target);
+    geojson2.resetStyle(e.target);
+}
+
+geojson2 = L.geoJson(data, {
+    style: style,
+    onEachFeature: onEachFeature
+}).bindPopup(function (layer){
+return layer.feature.properties.NAME 
+        + '<p style="color:red">' + layer.feature.properties.lan_den.toString() + ' people/hectare </p>';       
+}).addTo(mymap);
+
+var legend2 = L.control({position: 'bottomright'});
+
+legend2.onAdd = function (mymap) {
+
+    var div = L.DomUtil.create('div', 'legend'),
+        grades = [0, 14, 22, 35, 47];
+
+    div.innerHTML = '<b>Population Density <br></b>';
+    
+    // Loop through our the classes and generate a label with a color box for each interval.
+    // If you are creating a choropleth map, you DO NOT need to change lines below.
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + getColor(grades[i] + 1) + '"></i>' +
+        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
+
+    return div;
+};
+
+legend2.addTo(mymap);
+
+// ~~~~~~~ Menu ~~~~~~~~~~
+
+let layers = {
+    "Population" : geojson,
+    "Language" : geojson2,
+};
+
+var layerControl = L.control.layers(mapLayers).addTo(mymap);
