@@ -4,9 +4,9 @@ function dropdown(name) {
         if (name == "labContent") {
             for (let i = 0; i < 9; i++) {
                 let temp = document.createElement('a');
-                let link = document.createTextNode("Lab "+ (i));
+                let link = document.createTextNode("Lab "+ (i+1));
                 temp.appendChild(link);
-                temp.href = "lab_" + i + "/geo455_lab" + i + ".html";
+                temp.href = "lab_" + (i+1) + "/geo455_lab" + (i+1) + ".html";
                 temp.classList.add("menuitem");
                 div.appendChild(temp);
             }
@@ -15,7 +15,7 @@ function dropdown(name) {
                 let temp = document.createElement('a');
                 let link = document.createTextNode("Lab "+ (i+1));
                 temp.appendChild(link);
-                temp.href = "ex" + i + "/geo455_ex" + i + ".html";
+                temp.href = "ex" + (i+1) + "/geo455_ex" + (i+1) + ".html";
                 temp.classList.add("menuitem");
                 div.appendChild(temp);
             }
