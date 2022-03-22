@@ -92,11 +92,11 @@ legend.addTo(mymap);
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function getColor2(value) {
-    return value > 47 ? '#54278f':
-           value > 35  ? '#756bb1':
-           value > 22  ? '#9e9ac8':
-           value > 14  ? '#cbc9e2':
-                         '#f2f0f7';
+    return value > 47 ? "rgb(179,0,0)":
+           value > 35  ? "rgb(227,74,51)":
+           value > 22  ? "rgb(252,141,89)":
+           value > 14  ? "rgb(253,204,138)":
+                         "rgb(254,240,217)";
 }
 
 function style2(feature){
