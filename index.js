@@ -2,20 +2,20 @@ function dropdown(name) {
     let div = document.getElementById(name);
     if (div.childElementCount == 0) {
         if (name == "labContent") {
-            for (let i = 0; i < 9; i++) {
+            for (let i = 1; i < 10; i++) {
                 let temp = document.createElement('a');
-                let link = document.createTextNode("Lab "+ (i+1));
+                let link = document.createTextNode("Lab "+ i);
                 temp.appendChild(link);
-                temp.href = "lab_" + (i+1) + "/geo455_lab" + (i+1) + ".html";
+                temp.href = "lab_" + i + "/geo455_lab" + i + ".html";
                 temp.classList.add("menuitem");
                 div.appendChild(temp);
             }
         } else if (name == "exContent") {
-            for (let i = 0; i < 6; i++) {
+            for (let i = 1; i < 7; i++) {
                 let temp = document.createElement('a');
-                let link = document.createTextNode("Lab "+ (i+1));
+                let link = document.createTextNode("Ex "+ i);
                 temp.appendChild(link);
-                temp.href = "ex_" + (i+1) + "/geo455_ex" + (i+1) + ".html";
+                temp.href = "ex_" + i + "/geo455_ex" + i + ".html";
                 temp.classList.add("menuitem");
                 div.appendChild(temp);
             }
