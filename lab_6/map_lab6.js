@@ -29,7 +29,7 @@ function style(feature){
         color: 'gray',
         fillOpacity: 0.9
     };
-    }
+}
 
   function highlightFeature(e) {
     var feature = e.target;
@@ -45,48 +45,47 @@ function style(feature){
     }
 }
 
-    function onEachFeature(feature, layer) {
-        layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
-        });
-    }
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+    });
+}
 
 
-    var geojson;
+var geojson;
 
-    function resetHighlight(e) {
-        geojson.resetStyle(e.target);
-    }
+function resetHighlight(e) {
+    geojson.resetStyle(e.target);
+    geojson2.resetStyle(e.target);
+}
 
-    geojson = L.geoJson(data, {
-        style: style,
-        onEachFeature: onEachFeature
-    }).bindPopup(function (layer){
-    return layer.feature.properties.NAME 
-           + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
+geojson = L.geoJson(data, {
+    style: style,
+    onEachFeature: onEachFeature
+}).bindPopup(function (layer){
+return layer.feature.properties.NAME 
+        + '<p style="color:purple">' + layer.feature.properties.pop_den.toString() + ' people/hectare </p>';       
 }).addTo(mymap);
 
+var legend = L.control({position: 'bottomright'});
 
+legend.onAdd = function (mymap) {
 
-  var legend = L.control({position: 'bottomright'});
+    var div = L.DomUtil.create('div', 'legend'),
+        grades = [0, 32, 53, 87, 139];
 
-    legend.onAdd = function (mymap) {
+    div.innerHTML = '<b>Population Density <br></b>';
+    
+    // Loop through our the classes and generate a label with a color box for each interval.
+    // If you are creating a choropleth map, you DO NOT need to change lines below.
+    for (var i = 0; i < grades.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + getColor(grades[i] + 1) + '"></i>' +
+        grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
+    }
 
-        var div = L.DomUtil.create('div', 'legend'),
-            grades = [0, 32, 53, 87, 139];
+    return div;
+};
 
-        div.innerHTML = '<b>Population Density <br></b>';
-        
-        // Loop through our the classes and generate a label with a color box for each interval.
-        // If you are creating a choropleth map, you DO NOT need to change lines below.
-        for (var i = 0; i < grades.length; i++) {
-            div.innerHTML +=
-            '<i style="background:' + getColor(grades[i] + 1) + '"></i>' +
-            grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-        }
-
-        return div;
-    };
-
-    legend.addTo(mymap);
+legend.addTo(mymap);
