@@ -4,7 +4,7 @@ function dropdown(name) {
         if (name == "labContent") {
             for (let i = 0; i < 9; i++) {
                 let temp = document.createElement('a');
-                let link = document.createTextNode("Lab "+ (i+1));
+                let link = document.createTextNode("Lab "+ (i));
                 temp.appendChild(link);
                 temp.href = "lab_" + i + "/geo455_lab" + i + ".html";
                 temp.classList.add("menuitem");
