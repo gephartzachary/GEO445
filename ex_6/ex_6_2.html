@@ -13,6 +13,9 @@
                border: 5px solid cadetblue;
                
            }
+           .removeclass {
+               border: 0px solid black;
+           }
       </style>
     </head>
       <script type = "text/javascript" 
@@ -21,12 +24,16 @@
 
       <script>
           $(document).ready(function() {
-              $("button").click(function(){
+              $("#add").click(function(){
                   $("img").addClass("styleclass");
                   
               });
           });
-          
+          $(document).ready(function() {
+              $("#remove").click(function(){
+                  $("img").addClass("removeclass");
+              });
+          });
 
       </script>
 
@@ -41,6 +48,7 @@
            <img src="img/Thomson_&_Thompson.png">
        </div>
        
-       <button>Try addClass()</button>
+       <button id="add">Try addClass()</button>
+       <button id="remove">Try removeClass()</button>
    </body>
 </html>
