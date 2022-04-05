@@ -11,7 +11,7 @@ function dropdown(name) {
                 div.appendChild(temp);
             }
         } else if (name == "exContent") {
-            for (let i = 1; i < 7; i++) {
+            for (let i = 1; i < 8; i++) {
                 let temp = document.createElement('a');
                 let link = document.createTextNode("Ex "+ i);
                 temp.appendChild(link);
