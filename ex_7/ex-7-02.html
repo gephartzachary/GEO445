@@ -37,7 +37,7 @@ L.tileLayer(
 ).addTo(mymap);
 
 // Add random points
-var points = turf.randomPoint(20, {bbox: bounds});
+var points = turf.randomPoint(100, {bbox: bounds});
         
 // Convert to geoJSON to plot on leaflet map
 L.geoJSON(points).addTo(mymap);
