@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lab 10</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Load Leaflet from CDN -->
+       <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
+       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+       
+    <!-- Load TurfJS from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
+    
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100%;
+        }
+        #title {
+            position:fixed;
+            top: 10px;
+            left: 50px;
+            margin-top: 0;
+            font-size: 2em;
+            font-family: "Lora", serif;
+            letter-spacing: 0.04em;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.5);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+        }
+        #description {
+            position: fixed;
+            bottom: 20px;
+            right: 10px;
+            width: 280px;
+            padding: 0px 15px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: 1px solid grey;
+            border-radius: 3px;
+            z-index: 800;
+        }
+        #description p{
+            font-size: .9em;
+            line-height: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <h1 id="title">Lab 10: Client-side Processing with Turf.js</h1>
+    <div id="description">
+        <h2>About this assignment</h2>
+        <p>This map uses TurfJS to show the great circle distance and mid-point bwtween two points. The points can be dragged and moved to any location.</p>
+        <p>Map authored by Zachary Gephart.</p>
+     </div>
+    <script>
+    
+        // Bounds   long/lat
+        var bounds = [-74.0060, 40.7128, -0.1276, 51.5072];
+            
+        // Initialize map
+        var mymap = L.map("map").fitBounds([[bounds[1], bounds[0]], [bounds[3], bounds[2]]]);
+                
+        L.tileLayer(
+            "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", 
+            {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'}
+        ).addTo(mymap);
+
+        // Define layers
+        var pnt_layer = L.layerGroup().addTo(mymap);
+        var gc_layer = L.layerGroup().addTo(mymap);
+        var mid_layer = L.layerGroup().addTo(mymap);
+
+        // Calculate random points
+        var startPoint = turf.point([bounds[0], bounds[1]]);
+        var endPoint = turf.point([bounds[2], bounds[3]]);
+                
+        L.geoJSON(startPoint, {
+            onEachFeature: function(feature, layer) {
+                layer.addEventListener("drag", drawCircle);
+            },
+            pointToLayer: function(geoJsonPoint, latlng) {
+                return L.marker(latlng, {draggable: true});
+            }
+        }).addTo(pnt_layer);
+
+        L.geoJSON(endPoint, {
+            onEachFeature: function(feature, layer) {
+                layer.addEventListener("drag", drawCircle);
+            },            
+            pointToLayer: function(geoJsonPoint, latlng) {
+                return L.marker(latlng, {draggable: true});
+            }
+        }).addTo(pnt_layer);
+
+        function drawCircle() {
+            gc_layer.clearLayers();
+            // Pull points from layer
+            points = pnt_layer.toGeoJSON();
+            // Access coordinates from point cloud
+            startPoint = points.features[0].geometry.coordinates;
+            endPoint = points.features[1].geometry.coordinates;
+            // Great Circle Creation
+            var greatCircle = turf.greatCircle(startPoint, endPoint);
+            greatCircle = L.geoJSON(greatCircle);
+            greatCircle.addTo(gc_layer);
+            // Clears the mid layer
+            mid_layer.clearLayers();
+            // Calculates the midpoint and adds it to the map
+            L.geoJSON(turf.midpoint(startPoint, endPoint), {          
+                pointToLayer: function(geoJsonPoint, latlng) {
+                    return L.marker(latlng);
+                }
+            }).addTo(mid_layer);
+        }
+
+        drawCircle();
+
+    </script>
+</body>
+</html>
