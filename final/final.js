@@ -203,17 +203,33 @@ var baseLayers = {
     'Satellite': topo,
 };
 
+// Search Box
+	
+
+var searchControl = new L.Control.Search({
+    position:'topright',
+    layer: layer,
+    propertyName: 'TITLE',
+    marker: false,
+    markeranimate: true,
+    delayType: 50,
+    collapsed: false,
+    textPlaceholder: 'Search by Facility Name',   //placeholder value
+    moveToLocation: function(latlng, title, map) {
+        mymap.setView(latlng, 13);}
+});
+
+mymap.addControl(searchControl);  //inizialize search control
+
 // Slider
 var insert = document.getElementById("insert");
 var slider = document.getElementById("myRange");
 
 var phrase = document.createTextNode("1940  -  ");
-var year = document.createTextNode("2022");
+var year = document.createTextNode(slider.value);
 
 insert.appendChild(phrase);
 insert.appendChild(year);
-
-
 
 // Update the current slider value (each time you drag the slider handle)
 slider.oninput = function() {
