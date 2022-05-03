@@ -207,7 +207,7 @@ var baseLayers = {
 	
 
 var searchControl = new L.Control.Search({
-    position:'bottomleft',
+    position:'topright',
     layer: layer,
     propertyName: 'TITLE',
     marker: false,
