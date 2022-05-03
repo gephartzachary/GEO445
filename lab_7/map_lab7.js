@@ -103,7 +103,7 @@ mymap.addLayer(clustermarkers);
 
 // Scalebar   
 L.control.scale({position: 'bottomright', maxWidth: '150', metric: 'True'}).addTo(mymap); 
-    
+
         
 // Inset Map
 var miniMap = new L.Control.MiniMap(L.tileLayer('https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=tZnptaeI9RvKHsX18rbW'), {

@@ -1,20 +1,28 @@
+
 <!DOCTYPE html>
 <html>
    <head>
-      <title>geo455_lab9</title>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-      <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="">
+      <title>Race to Space</title>
+      <link href="https://fonts.googleapis.com/css?family=Noto+Sans" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+      <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-      <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@100&amp;display=swap" rel="stylesheet">
-      <script src="https://unpkg.com/esri-leaflet@3.0.7/dist/esri-leaflet.js" integrity="sha512-ciMHuVIB6ijbjTyEdmy1lfLtBwt0tEHZGhKVXDzW7v7hXOe+Fo3UA1zfydjCLZ0/vLacHkwSARXB5DmtNaoL/g==" crossorigin=""></script>
-      <script src="https://unpkg.com/esri-leaflet-vector@3.1.2/dist/esri-leaflet-vector.js" integrity="sha512-SnA/TobYvMdLwGPv48bsO+9ROk7kqKu/tI9TelKQsDe+KZL0TUUWml56TZIMGcpHcVctpaU6Mz4bvboUQDuU3w==" crossorigin=""></script>
-      <script src="https://lycheelin.github.io/leaflet.migrationLayer/src/src.js"></script>
-      <script src="dane_data.js"></script>
+      <link rel="stylesheet" href="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.css" />
+      <script src="https://labs.easyblog.it/maps/leaflet-search/src/leaflet-search.js"></script>
+      <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.css' rel='stylesheet' />
+      <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js'></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.css">
+      <script src="https://cdn.jsdelivr.net/npm/leaflet-easybutton@2/src/easy-button.js"></script>
+      <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+      <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+      <script src="SliderControl.js"></script>
+      <script src="locations.js"></script>
+      <script src="leaflet-heat.js"></script>
       <style>
+         * {
+            margin: auto;
+            padding: auto;
+         }
          #container  {
             height: relative;
             width: relative;
@@ -25,46 +33,76 @@
          }
          #header{
             background-color: black;
-            padding: 5px;
             font-family: "Roboto Serif", Helvetica, Corbel, Arial, sans-serif;
             text-align: center;
             color: aliceblue;
          }
-         .button {
-            background-color: #008CBA; /* Green */
-            border: 1px solid white;
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 6px;
-            display: block;
-            width: 200px;
-            height: 50px;
+         #header h1 {
+            padding-top: 1px;
          }
-         #container #menu{
-            position: static;
-            width: 220px;
-            top: 10px;
-            left: 50px;
-            padding: 10px 15px;
-            float: left;
-            height: 780px;
-            margin: 0;
-            font-size: 1em;
-            font-family: "Lora", serif;
-            letter-spacing: .04em;
-            background-color: #9ebcda;
-            border: 1px solid grey;
-            border-radius: 3px;      
+         #header p{
+            padding-bottom: 1px;
          }
-
          #container #map{
-            height: 800px;
+            height: 85vh;
             position: relative;
          }
-           
+         .slidecontainer {
+            margin: 5px;
+         }
+         .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 25px;
+            background: #d3d3d3;
+            outline: none;
+            opacity: 0.7;
+            -webkit-transition: .2s;
+            transition: opacity .2s;
+         }
+         .slider:hover {
+            opacity: 1;
+         }
+         .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+         }
+         .slider::-moz-range-thumb {
+            width: 25px;
+            height: 25px;
+            background: #04AA6D;
+            cursor: pointer;
+         }
+         #insert {
+            font-family: "Roboto Serif", Helvetica, Corbel, Arial, sans-serif;
+            text-align: center;
+         }
+         #description {
+               position: fixed;
+               bottom: 80px;
+               left: 10px;
+               width: 280px;
+               padding: 0px 15px;
+               background-color: rgba(255, 255, 255, 0.7);
+               border: 1px solid grey;
+               border-radius: 3px;
+               z-index: 800;
+            }
+         #description p{
+               font-size: .9em;
+               line-height: 1.5em;
+            }
+         #description a {
+               color: #005daa;
+               text-decoration: none;
+            }
+         #description a:hover {
+               text-decoration: underline;
+            }
          html {
             background-color: gray;
          }
@@ -73,19 +111,23 @@
          }
       </style>
    </head>
-   <body bgcolor="#EDDD9E">
+   <body>
       <div id="container">
          <div id="header">
-            <h1> Lab 9: Mapping with ESRI leaflet and jQuery</h1>
-         </div>
-         <div id="menu">
-            <button id="btn1" class="button">Show Legend</button>
-            <button id="btn2" class="button">Hide Legend</button>
-            <button id="btn3" class="button">Show about map</button>
-            <button id="btn4" class="button">Hide about map</button>
+            <h1>THE RACE TO SPACE</h1>
+            <p>Visualizing the Struggle for Space Supremecy</p>
          </div>
          <div id="map"></div>
+         <div id="description">
+            <p style="text-align:center;">About the Map</p>
+            <p>Countless generations have looked to the sky in awe of the stars. Thanks to the current advances in technologogy we are closer than we have ever been. This goal of this visialization is to help users learn about the history of spaceflight and the state of our current launch capabilities. </p>
+            <p style="text-align:center;">Map Developer: Zach Gephart </p>
+         </div>
+         <div class="slidecontainer">
+            <input type="range" min="1940" max="2022" value="2022" class="slider" id="myRange">
+            <div id="insert"></div>
+         </div>
       </div>
-      <script src="map_lab9.js"></script>
+      <script src="final.js"></script>
    </body>
 </html>

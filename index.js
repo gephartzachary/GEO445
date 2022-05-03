@@ -20,9 +20,10 @@ function dropdown(name) {
                 div.appendChild(temp);
             }
         } else {
-            let temp = document.createElement('p');
-            let link = document.createTextNode("Big things are coming...");
+            let temp = document.createElement('a');
+            let link = document.createTextNode("Final Project");
             temp.appendChild(link);
+            temp.href = "final/geo455_final.html"
             temp.classList.add("menuitem");
             div.appendChild(temp);
         }
