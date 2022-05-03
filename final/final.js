@@ -207,14 +207,14 @@ var baseLayers = {
 	
 
 var searchControl = new L.Control.Search({
-    position:'topright',
+    position:'bottomleft',
     layer: layer,
     propertyName: 'TITLE',
     marker: false,
     markeranimate: true,
     delayType: 50,
     collapsed: false,
-    textPlaceholder: 'Search by Facility Name',   //placeholder value
+    textPlaceholder: 'Search by Active Facility Name',   //placeholder value
     moveToLocation: function(latlng, title, map) {
         mymap.setView(latlng, 13);}
 });
